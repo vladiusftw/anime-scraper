@@ -32,11 +32,11 @@ const Links = ({ onClick }: Props) => {
           py={{ base: "3" }}
           key={link.title}
         >
-          <NextLink href={link.path}>
+          {/* <NextLink href={link.path}>
             <chakra.a href={link.path} onClick={onClick}>
               {link.title}
             </chakra.a>
-          </NextLink>
+          </NextLink> */}
         </Box>
       ))}
     </>

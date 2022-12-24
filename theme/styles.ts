@@ -10,7 +10,7 @@ const styles: Styles = {
         //   height: '100%',
         // },
         // fontFeatureSettings: "'ss01' on, 'ss04' on, 'salt' on, 'titl' on",
-        bgColor: "#fff",
+        bgColor: "black",
         color: "#fff",
         // h1: {
         //   fontSize: ['5xl', '6xl', null, '7xl'],

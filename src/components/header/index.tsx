@@ -1,7 +1,4 @@
-import { Box, Container } from "@chakra-ui/react";
-
-import Logo from "../logo";
-import Navbar from "./navbar";
+import { Box, Container, Input } from "@chakra-ui/react";
 
 const Header = () => (
   <Box
@@ -20,10 +17,7 @@ const Header = () => (
         alignItems="center"
         mx="auto"
         h="4rem"
-      >
-        <Logo />
-        <Navbar />
-      </Box>
+      ></Box>
     </Container>
   </Box>
 );

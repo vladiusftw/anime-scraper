@@ -1,8 +1,8 @@
 import NextImage from "next/image";
-import NextLink from "next/link";
 
 import { Box, Button } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
+import Link from "next/link";
 
 const Custom404 = () => (
   <>
@@ -26,9 +26,7 @@ const Custom404 = () => (
           priority
         />
         <Button colorScheme="facebook" size="lg">
-          <NextLink href="/">
-            <a>Back to home page.</a>
-          </NextLink>
+          <Link href="/">Back to home page.</Link>
         </Button>
       </Box>
     </Box>
