@@ -23,8 +23,9 @@ const Hero = () => {
   const [items, setItems] = useState<Array<Item>>([]);
   const fetchItems = async () => {
     console.log("test");
+
     const response = await fetch(
-      `https://anime-scraper-pi.vercel.app/api/animeSearch?search=${value}`
+      `${process.env.NEXT_PUBLIC_URL}/api/animeSearch?search=${value}`
     );
     const temp: Array<Item> = await response.json();
     setItems([...temp]);
@@ -32,7 +33,7 @@ const Hero = () => {
   useEffect(() => {
     async function getHome() {
       const response = await fetch(
-        `https://anime-scraper-pi.vercel.app/api/animeSearch?search=${value}`
+        `${process.env.NEXT_PUBLIC_URL}/api/animeSearch?search=${value}`
       );
       const temp: Array<Item> = await response.json();
       setItems([...temp]);
