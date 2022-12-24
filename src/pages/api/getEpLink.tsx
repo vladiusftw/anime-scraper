@@ -5,7 +5,8 @@ const getEpLink = async (req: NextApiRequest, res: NextApiResponse) => {
     query: { path, ep },
   } = req;
   const url = "https://gogohd.net/videos/";
-  const epNum = parseFloat(ep);
+  const episode = ep + "";
+  const epNum = parseFloat(episode);
   const endpoint = epNum == 0 ? path : path + `-episode-${epNum}`;
   const response = await fetch(url + endpoint);
   const soup = new JSSoup(await response.text());
