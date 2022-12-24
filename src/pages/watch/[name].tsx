@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 export async function getServerSideProps(context: any) {
   const path = context.params.name;
   const response = await fetch(
-    `http://localhost:3000/api/getEpNums?path=${path}`
+    `https://anime-scraper-pi.vercel.app//api/getEpNums?path=${path}`
   );
   if (response.status == 404) return { props: { eps: [], path } };
   else {
@@ -35,7 +35,7 @@ const Anime = (props: Props) => {
   const getLink = async (ep: number) => {
     setIsLoading(true);
     const response = await fetch(
-      `http://localhost:3000/api/getEpLink?path=${path}&ep=${ep}`
+      `https://anime-scraper-pi.vercel.app//api/getEpLink?path=${path}&ep=${ep}`
     );
     const result = await response.json();
     console.log(`https:${result}`);
