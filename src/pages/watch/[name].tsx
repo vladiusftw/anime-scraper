@@ -38,30 +38,34 @@ const Anime = (props: Props) => {
   const [completed, setCompleted] = useState([]);
   const [latest, setLatest] = useState(-1);
   useEffect(() => {
-    const unsub = onSnapshot(
-      doc(db, `users/${auth.currentUser?.email}/animes/${path}`),
-      (doc) => {
-        if (doc.exists()) {
-          setCompleted(doc.data().completed);
-          setLatest(doc.data().latest);
-          console.log("completed", doc.data().completed);
-          console.log("latest", doc.data().latest);
+    if (auth.currentUser) {
+      const unsub = onSnapshot(
+        doc(db, `users/${auth.currentUser?.email}/animes/${path}`),
+        (doc) => {
+          if (doc.exists()) {
+            setCompleted(doc.data().completed);
+            setLatest(doc.data().latest);
+            console.log("completed", doc.data().completed);
+            console.log("latest", doc.data().latest);
+          }
         }
-      }
-    );
-    return unsub;
+      );
+      return unsub;
+    }
   }, []);
   const markCurrent = async (ep: number) => {
-    if (completed.find((i) => i == ep)) {
-      console.log("already watched!");
-      return;
+    if (auth.currentUser) {
+      if (completed.find((i) => i == ep)) {
+        console.log("already watched!");
+        return;
+      }
+      await setDoc(doc(db, `users/${auth.currentUser?.email}/animes/${path}`), {
+        latest: ep > latest ? ep : latest,
+        completed: [...completed, ep],
+      })
+        .then(() => console.log("episode updated!"))
+        .catch((e) => console.log(e));
     }
-    await setDoc(doc(db, `users/${auth.currentUser?.email}/animes/${path}`), {
-      latest: ep > latest ? ep : latest,
-      completed: [...completed, ep],
-    })
-      .then(() => console.log("episode updated!"))
-      .catch((e) => console.log(e));
   };
   const getLink = async (ep: number) => {
     setIsLoading(true);
