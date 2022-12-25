@@ -42,13 +42,16 @@ const Hero = () => {
   }, []);
   return (
     <Box>
-      <Container maxW={"7xl"} mt={10}>
+      <Container maxW={"7xl"} py={32}>
         <Input
           placeholder={"Search Anime..."}
           onChange={(val) => setValue(val.target.value)}
           onKeyPress={(e) => {
             if (e.key == "Enter") fetchItems();
           }}
+          pos={"fixed"}
+          maxW={"7xl"}
+          bgColor={"black"}
         />
         <Grid
           templateColumns={[
@@ -60,7 +63,7 @@ const Hero = () => {
           ]}
           rowGap={10}
           columnGap={8}
-          mt={10}
+          mt={20}
         >
           {items.map((item: Item, index: any) => {
             const getName = () => {

@@ -1,4 +1,6 @@
 import { Box, Container, Input } from "@chakra-ui/react";
+import Logo from "../logo";
+import Navbar from "./navbar";
 
 const Header = () => (
   <Box
@@ -8,6 +10,7 @@ const Header = () => (
     w={"100%"}
     zIndex={9}
     py={[8]}
+    top={0}
     bgColor={"black"}
   >
     <Container maxW={"7xl"}>
@@ -17,7 +20,10 @@ const Header = () => (
         alignItems="center"
         mx="auto"
         h="4rem"
-      ></Box>
+      >
+        <Logo />
+        <Navbar />
+      </Box>
     </Container>
   </Box>
 );

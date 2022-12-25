@@ -10,6 +10,8 @@ import {
   Modal,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { db, auth } from "../../Firebase";
 
 export async function getServerSideProps(context: any) {
   const path = context.params.name;
@@ -33,6 +35,34 @@ type Props = {
 const Anime = (props: Props) => {
   const { eps, path } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [completed, setCompleted] = useState([]);
+  const [latest, setLatest] = useState(-1);
+  useEffect(() => {
+    const unsub = onSnapshot(
+      doc(db, `users/${auth.currentUser?.email}/animes/${path}`),
+      (doc) => {
+        if (doc.exists()) {
+          setCompleted(doc.data().completed);
+          setLatest(doc.data().latest);
+          console.log("completed", doc.data().completed);
+          console.log("latest", doc.data().latest);
+        }
+      }
+    );
+    return unsub;
+  }, []);
+  const markCurrent = async (ep: number) => {
+    if (completed.find((i) => i == ep)) {
+      console.log("already watched!");
+      return;
+    }
+    await setDoc(doc(db, `users/${auth.currentUser?.email}/animes/${path}`), {
+      latest: ep > latest ? ep : latest,
+      completed: [...completed, ep],
+    })
+      .then(() => console.log("episode updated!"))
+      .catch((e) => console.log(e));
+  };
   const getLink = async (ep: number) => {
     setIsLoading(true);
     const response = await fetch(
@@ -40,6 +70,7 @@ const Anime = (props: Props) => {
     );
     const result = await response.json();
     setIsLoading(false);
+    markCurrent(ep);
     window.open(`https:${result}`);
     console.log(`https:${result}`);
   };
@@ -60,7 +91,7 @@ const Anime = (props: Props) => {
       >
         <Spinner size={"lg"} />
       </Box>
-      <Container maxW={"7xl"} my={10}>
+      <Container maxW={"7xl"} py={36}>
         <Grid
           templateColumns={[
             "repeat(3,1fr)",
@@ -83,7 +114,11 @@ const Anime = (props: Props) => {
               >
                 <HStack
                   justifyContent={"center"}
-                  bgColor={"rgba(36, 52, 83, 0.5)"}
+                  bgColor={
+                    completed.find((i) => i == item)
+                      ? "red"
+                      : "rgba(36, 52, 83, 0.5)"
+                  }
                   p={2}
                 >
                   <Text>EP</Text>
