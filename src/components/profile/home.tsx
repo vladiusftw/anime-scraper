@@ -25,18 +25,22 @@ const Home = () => {
   };
   const [episodes, setEpisodes] = useState<episode[]>([]);
   useEffect(() => {
-    const q = query(collection(db, `users/${auth.currentUser?.email}/animes`));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      const temp: episode[] = [];
-      querySnapshot.forEach((doc) => {
-        temp.push({
-          name: doc.id,
-          latest: doc.data().latest,
+    if (auth.currentUser) {
+      const q = query(
+        collection(db, `users/${auth.currentUser?.email}/animes`)
+      );
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        const temp: episode[] = [];
+        querySnapshot.forEach((doc) => {
+          temp.push({
+            name: doc.id,
+            latest: doc.data().latest,
+          });
         });
+        setEpisodes([...temp]);
       });
-      setEpisodes([...temp]);
-    });
-    return unsub;
+      return unsub;
+    }
   }, []);
   return (
     <Box>
