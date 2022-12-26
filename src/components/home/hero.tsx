@@ -67,16 +67,21 @@ const Hero = () => {
         >
           {items.map((item: Item, index: any) => {
             const getName = () => {
-              var temp = item.name;
-              temp = temp.toLowerCase();
-              temp = temp.replaceAll(/[^a-zA-Z\s0-9\-]/g, "");
-              temp = temp.replaceAll(" ", "-");
-              console.log(temp);
-              return temp;
+              const temp = item.name.toString();
+              return temp
+                .toLowerCase()
+                .replaceAll(/[^a-zA-Z\s0-9\-]/g, "")
+                .replaceAll(" ", "-");
             };
             return (
               <GridItem h={"100%"} key={index}>
-                <Link href={`/watch/[name]`} as={`/watch/${getName()}`}>
+                <Link
+                  href={{
+                    pathname: `/watch/[name]`,
+                    query: { img: item.img, animeName: item.name },
+                  }}
+                  as={`/watch/${getName()}`}
+                >
                   <VStack
                     bgColor={"rgba(36, 52, 83, 0.5)"}
                     py={6}

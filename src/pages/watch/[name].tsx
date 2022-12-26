@@ -14,7 +14,8 @@ import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { db, auth } from "../../Firebase";
 
 export async function getServerSideProps(context: any) {
-  const path = context.params.name;
+  console.log(context.query);
+  const path = context.query.name;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/getEpNums?path=${path}`
   );
@@ -22,7 +23,12 @@ export async function getServerSideProps(context: any) {
   else {
     const eps = await response.json();
     return {
-      props: { eps, path },
+      props: {
+        eps,
+        path,
+        img: context.query.img,
+        animeName: context.query.animeName,
+      },
     };
   }
 }
@@ -30,10 +36,12 @@ export async function getServerSideProps(context: any) {
 type Props = {
   eps: Array<number>;
   path: string;
+  img: string;
+  animeName: string;
 };
 
 const Anime = (props: Props) => {
-  const { eps, path } = props;
+  const { eps, path, img, animeName } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [completed, setCompleted] = useState([]);
   const [latest, setLatest] = useState(-1);
@@ -62,6 +70,8 @@ const Anime = (props: Props) => {
       await setDoc(doc(db, `users/${auth.currentUser?.email}/animes/${path}`), {
         latest: ep > latest ? ep : latest,
         completed: [...completed, ep],
+        animeName: animeName,
+        img: img,
       })
         .then(() => console.log("episode updated!"))
         .catch((e) => console.log(e));

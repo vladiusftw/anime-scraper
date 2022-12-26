@@ -5,16 +5,21 @@ import {
   Grid,
   GridItem,
   HStack,
+  Image,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { db, auth } from "../../Firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import Link from "next/link";
 
 type episode = {
-  name: string;
+  animeName: string;
   latest: number;
+  path: string;
+  img: string;
 };
 
 const Home = () => {
@@ -33,8 +38,10 @@ const Home = () => {
         const temp: episode[] = [];
         querySnapshot.forEach((doc) => {
           temp.push({
-            name: doc.id,
+            path: doc.id,
             latest: doc.data().latest,
+            animeName: doc.data().animeName,
+            img: doc.data().img,
           });
         });
         setEpisodes([...temp]);
@@ -55,33 +62,40 @@ const Home = () => {
           Sign Out
         </Button>
         <Grid
-          mt={4}
+          mt={10}
           templateColumns={[
             "repeat(1,1fr)",
             "repeat(2,1fr)",
             "repeat(3,1fr)",
             "repeat(4,1fr)",
+            "repeat(5,1fr)",
           ]}
-          columnGap={2}
-          rowGap={2}
+          rowGap={10}
+          columnGap={8}
         >
           {episodes.map((item: episode, index: any) => {
             return (
-              <GridItem
-                key={index}
-                bgColor={"rgba(36, 52, 83, 0.5)"}
-                p={4}
-                borderRadius={"xl"}
-              >
-                <HStack
-                  spacing={[4]}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  h={"100%"}
+              <GridItem h={"100%"} key={index}>
+                <Link
+                  href={{
+                    pathname: `/watch/[name]`,
+                    query: { img: item.img, animeName: item.animeName },
+                  }}
+                  as={`/watch/${item.path}`}
                 >
-                  <Text size={"sm"}>{item.name}</Text>
-                  <Text size={"sm"}>{item.latest}</Text>
-                </HStack>
+                  <VStack
+                    bgColor={"rgba(36, 52, 83, 0.5)"}
+                    py={6}
+                    borderRadius={"3xl"}
+                    h={"100%"}
+                  >
+                    <Image src={item.img} alt={""} w={160} h={240} />
+                    <Text size={"xs"} textAlign={"center"}>
+                      {item.animeName}
+                    </Text>
+                    <Text size={"xs"}>{`Episode ${item.latest}`}</Text>
+                  </VStack>
+                </Link>
               </GridItem>
             );
           })}
