@@ -42,17 +42,21 @@ const Hero = () => {
   }, []);
   return (
     <Box>
+      <Box pos={"fixed"} w={"100%"} my={32} zIndex={20}>
+        <Container maxW={"7xl"}>
+          <Input
+            placeholder={"Search Anime..."}
+            onChange={(val) => setValue(val.target.value)}
+            onKeyPress={(e) => {
+              if (e.key == "Enter") fetchItems();
+            }}
+            bgColor={"black"}
+            w={"100%"}
+          />
+        </Container>
+      </Box>
+
       <Container maxW={"7xl"} py={32}>
-        <Input
-          placeholder={"Search Anime..."}
-          onChange={(val) => setValue(val.target.value)}
-          onKeyPress={(e) => {
-            if (e.key == "Enter") fetchItems();
-          }}
-          pos={"fixed"}
-          maxW={"7xl"}
-          bgColor={"black"}
-        />
         <Grid
           templateColumns={[
             "repeat(1,1fr)",
