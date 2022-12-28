@@ -85,10 +85,8 @@ const Anime = (props: Props) => {
     const result = await response.json();
     setIsLoading(false);
     markCurrent(ep);
-    setTimeout(() => {
-      window.open(`https:${result}`, "_blank");
-    });
     console.log(`https:${result}`);
+    return `https:${result}`;
   };
 
   return (
@@ -125,7 +123,9 @@ const Anime = (props: Props) => {
               <GridItem
                 key={index}
                 w={"100%"}
-                onClick={() => getLink(item)}
+                onClick={() => {
+                  getLink(item).then((link) => window.open(link));
+                }}
                 _hover={{ cursor: "pointer" }}
               >
                 <HStack
