@@ -85,7 +85,9 @@ const Anime = (props: Props) => {
     const result = await response.json();
     setIsLoading(false);
     markCurrent(ep);
-    window.open(`https:${result}`);
+    setTimeout(() => {
+      window.open(`https:${result}`);
+    });
     console.log(`https:${result}`);
   };
 

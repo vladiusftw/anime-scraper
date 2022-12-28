@@ -31,17 +31,19 @@ const Links = ({ onClick }: Props) => {
           <Box
             as="li"
             listStyleType="none"
-            px={{ lg: "8" }}
+            px={{ base: "4", lg: "8" }}
             py={{ base: "3" }}
             mx={1}
             key={link.title}
-            bgColor={router.pathname == link.path ? "red" : "unset"}
-            color={router.pathname == link.path ? "black" : "unset"}
-            borderRadius={"3xl"}
-            _hover={{
-              bgColor: "white",
-              color: "black",
+            bgColor={router.pathname == link.path ? "red" : "transparent"}
+            color={{
+              base: "black",
+              lg: router.pathname == link.path ? "black" : "white",
             }}
+            borderRadius={{ base: "xl", lg: "3xl" }}
+            _hover={{ base: {}, lg: { bgColor: "white", color: "black" } }}
+            _focus={{}}
+            _active={{}}
           >
             <Text>{link.title}</Text>
           </Box>

@@ -20,7 +20,7 @@ const Navbar = () => {
         <Box
           as="ul"
           fontWeight="600"
-          bg={{ base: "telegram.700", lg: "transparent" }}
+          bg={{ base: "white", lg: "transparent" }}
           display={{
             base: isOpen ? "block" : "none",
             lg: "flex",
@@ -31,7 +31,7 @@ const Navbar = () => {
           right="5%"
           rounded={{ base: "lg", lg: "none" }}
           py={{ base: "2", lg: "0" }}
-          px={{ base: "4", lg: "0" }}
+          px={{ base: "0", lg: "0" }}
           alignItems={{ lg: "center" }}
           boxShadow={{ base: "xl", lg: "none" }}
           zIndex="2"
