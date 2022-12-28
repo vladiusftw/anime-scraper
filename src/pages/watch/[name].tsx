@@ -86,7 +86,7 @@ const Anime = (props: Props) => {
     setIsLoading(false);
     markCurrent(ep);
     setTimeout(() => {
-      window.open(`https:${result}`);
+      window.open(`https:${result}`, "_blank");
     });
     console.log(`https:${result}`);
   };
